@@ -1,6 +1,8 @@
 package rally;
 
-public abstract class Transport <T extends Driver> implements Competing {
+import java.util.Arrays;
+
+public abstract class Transport<T extends Driver> implements Competing {
 
     private String brand;
     private String model;
@@ -16,6 +18,7 @@ public abstract class Transport <T extends Driver> implements Competing {
         setEngineVolume(engineVolume);
         setDriver(driver);
     }
+
     public double getEngineVolume() {
         return engineVolume;
     }
@@ -61,23 +64,20 @@ public abstract class Transport <T extends Driver> implements Competing {
         this.driver = driver;
     }
 
-    @Override
-    public String toString() {
-        return "Машины: " +
-                "Бренд = " + brand +
-                ", модель = " + model +
-                ", мощность двигателя = " + engineVolume;
-    }
 
-    public void startCar(){
+    public void startCar() {
         System.out.println(getBrand() + " " + model + ": начать движение");
     }
-    public void stopCar(){
+
+    public void stopCar() {
         System.out.println(getBrand() + " " + model + ": закончить движение");
     }
-    public void pitStop(){
+
+    public void pitStop() {
         System.out.println("Пит-стоп");
     }
+
+    public abstract void printType();
 
 
 }
