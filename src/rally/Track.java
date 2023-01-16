@@ -2,44 +2,33 @@ package rally;
 
 public class Track extends Transport<DriverB> {
     public enum BodyType {
-        LOW_BOUND(3.5f),
-        TOP_BOUND(12);
+        N1(null, 3.5f),
+        N2(3.5f, 12.0f),
+        N3(12.f, null);
 
-        public static String findByVoice(float settingBody) {
-            for (Track.BodyType body : values()) {
-                if (settingBody < LOW_BOUND.settingBody) {
-                    String track1 = "до " + LOW_BOUND.settingBody + " тонн";
-                    return track1;
-                } else if (settingBody >= LOW_BOUND.settingBody && settingBody <= TOP_BOUND.settingBody) {
-                    String track1 = "от " + LOW_BOUND.settingBody + " тонн до " + TOP_BOUND.settingBody + " тонн";
-                    return track1;
-                } else {
-                    String track1 = "до " + TOP_BOUND.settingBody + " тонн";
-                    return track1;
-                }
-            }
-            return null;
+        private final Float lowBound;
+        private final Float topBound;
+
+
+        BodyType(Float lowBound, Float topBound) {
+            this.lowBound = lowBound;
+            this.topBound = topBound;
         }
 
 
-        private final float settingBody;
+        @Override
+        public String toString() {
+            return String.format("Грузоподъемность:%s %s", (lowBound != null ? "от " + lowBound + " тонн" : ""),
+                    topBound != null ? "до " + topBound + " тонн" : "");
 
-
-        BodyType(float settingBody) {
-            this.settingBody = settingBody;
-
-        }
-
-        public float getSettingBody() {
-            return settingBody;
         }
     }
 
-    private final float bodyType;
 
-    public Track(String brand, String model, double engineVolume, DriverB driver, float bodyType) {
+    private BodyType bodyType;
+
+    public Track(String brand, String model, double engineVolume, DriverB driver) {
         super(brand, model, engineVolume, driver);
-        this.bodyType = bodyType;
     }
 
     @Override
@@ -74,23 +63,27 @@ public class Track extends Transport<DriverB> {
 
     @Override
     public String toString() {
-        return "Грузоподъемность: " + BodyType.findByVoice(bodyType) + ". Машина: " +
+        return "Грузоподъемность: " + BodyType.N2 + ". Машина: " +
                 ", Бренд = " + getBrand() +
                 ", модель = " + getModel() +
                 ", мощность двигателя = " + getEngineVolume();
     }
+
+    public BodyType getBodyType() {
+        return bodyType;
+    }
+
+    public void setBodyType(BodyType bodyType) {
+        this.bodyType = bodyType;
+    }
+
     public void printType() {
-        if (bodyType < BodyType.LOW_BOUND.settingBody) {
-            System.out.println("Тип транспортного средства: N1");
-        } else if (bodyType >= BodyType.LOW_BOUND.settingBody && bodyType <= BodyType.TOP_BOUND.settingBody) {
-            System.out.println("Тип транспортного средства: N2");
-        } else if (bodyType >= BodyType.TOP_BOUND.settingBody) {
-            System.out.println("Тип транспортного средства: N3");
-        } else if (bodyType <= 0){
-            System.out.println("В поле введены некорректные данные");
-        } else  {
+        if (bodyType == null) {
             System.out.println("Данных по транспортному средству недостаточно");
+        } else {
+            System.out.println(bodyType);
         }
     }
+
 
 }

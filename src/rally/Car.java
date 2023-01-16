@@ -15,14 +15,6 @@ public class Car extends Transport<DriverA> {
         VAN("Фургон"),
         MINIVAN("Минивэн");
 
-        public static BodyType findByVoice(String settingBody) {
-            for (BodyType body : values()) {
-                if (body.getSettingBody().equals(settingBody)) {
-                    return body;
-                }
-            }
-            return null;
-        }
 
         private final String settingBody;
 
@@ -30,18 +22,17 @@ public class Car extends Transport<DriverA> {
             this.settingBody = settingBody;
         }
 
-
-        public String getSettingBody() {
-            return settingBody;
+        @Override
+        public String toString() {
+            return "Тип кузова: " +
+                    settingBody;
         }
-
     }
 
-    private final BodyType bodyType;
+    private BodyType bodyType;
 
-    public Car(String brand, String model, double engineVolume, DriverA driver, String bodyType) {
+    public Car(String brand, String model, double engineVolume, DriverA driver) {
         super(brand, model, engineVolume, driver);
-        this.bodyType = BodyType.findByVoice(bodyType);
     }
 
     @Override
@@ -74,12 +65,20 @@ public class Car extends Transport<DriverA> {
         System.out.println("Максимальная скорость у " + getBrand() + " " + getModel() + " " + ": " + maxSpeed + "км");
     }
 
+    public BodyType getBodyType() {
+        return bodyType;
+    }
+
+    public void setBodyType(BodyType bodyType) {
+        this.bodyType = bodyType;
+    }
+
     @Override
     public void printType() {
-        if (bodyType == null || bodyType.settingBody.isEmpty() || bodyType.settingBody.isBlank()) {
+        if (bodyType == null){
             System.out.println("Данных по транспортному средству недостаточно");
         } else {
-            System.out.println("Тип транспортного средства: " + bodyType.settingBody);
+            System.out.println(bodyType);
         }
     }
 
